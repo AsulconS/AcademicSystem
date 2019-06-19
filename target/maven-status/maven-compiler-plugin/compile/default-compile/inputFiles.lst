@@ -1,2 +1,5 @@
-C:\Users\Adrian\eclipse-workspace\AcademicSystem\src\main\java\com\aandb\AcademicSystem\Application.java
-C:\Users\Adrian\eclipse-workspace\AcademicSystem\src\main\java\com\aandb\AcademicSystem\controller\MainController.java
+/home/luis/eclipse-workspace/AcademicSystem/src/main/java/com/aandb/AcademicSystem/Application.java
+/home/luis/eclipse-workspace/AcademicSystem/src/main/java/com/aandb/AcademicSystem/dao/StudentDAO.java
+/home/luis/eclipse-workspace/AcademicSystem/src/main/java/com/aandb/AcademicSystem/model/DBConnection.java
+/home/luis/eclipse-workspace/AcademicSystem/src/main/java/com/aandb/AcademicSystem/model/Student.java
+/home/luis/eclipse-workspace/AcademicSystem/src/main/java/com/aandb/AcademicSystem/controller/MainController.java

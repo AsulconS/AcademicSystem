@@ -116,7 +116,7 @@ public class StudentDAO
     
     public boolean delete(Student student) throws SQLException
     {
-        String sql = "DELETE FROM students WHERE cui=?";
+        String sql = "DELETE FROM alumno WHERE cui=?";
         dbConnection.connect();
         connection = dbConnection.getJdbcConnection();
         PreparedStatement statement = connection.prepareStatement(sql);

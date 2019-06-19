@@ -8,7 +8,18 @@ public class Student
     private int age;
     private String sex;
     
-    public int getCui()
+    public Student() {}
+    
+    public Student(int cui, String name, String lastName, int age, String sex)
+    {
+		this.cui = cui;
+		this.name = name;
+		this.lastName = lastName;
+		this.age = age;
+		this.sex = sex;
+	}
+    
+	public int getCui()
     {
         return cui;
     }
