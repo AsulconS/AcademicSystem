@@ -9,12 +9,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.aandb.AcademicSystem.dao.StudentDAO;
+import com.aandb.AcademicSystem.dao.SubjectDAO;
 
 @SpringBootApplication
 public class Application
 {
     private static ConfigurableApplicationContext context;
     public static StudentDAO studentDAO;
+    public static SubjectDAO subjectDAO;
     
     public static void main(String[] args)
     {
@@ -25,12 +27,15 @@ public class Application
         try
         {
             studentDAO = new StudentDAO(jdbcURL, jdbcUsername, jdbcPassword);
+            subjectDAO = new SubjectDAO(jdbcURL, jdbcUsername, jdbcPassword);
         }
         catch(SQLException e)
         {
-            System.out.println("Failed to create StudentDAO!");
+            System.out.println("Failed to initialize the DAOs!");
         }
-        
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("CONNECTION SUCCESS! Done At: " + jdbcURL);
+        System.out.println("--------------------------------------------------------------------------");
         context = SpringApplication.run(Application.class, args);
     }
     
@@ -38,6 +43,6 @@ public class Application
     public void onShutDown()
     {
         context.close();
-        System.out.println("Closing safety");
+        System.out.println("Closing safety . . .");
     }
 }

@@ -1,5 +1,7 @@
-com/aandb/AcademicSystem/model/DBConnection.class
-com/aandb/AcademicSystem/dao/StudentDAO.class
-com/aandb/AcademicSystem/controller/MainController.class
-com/aandb/AcademicSystem/Application.class
-com/aandb/AcademicSystem/model/Student.class
+com\aandb\AcademicSystem\controller\MainController.class
+com\aandb\AcademicSystem\dao\SubjectDAO.class
+com\aandb\AcademicSystem\model\DBConnection.class
+com\aandb\AcademicSystem\dao\StudentDAO.class
+com\aandb\AcademicSystem\model\Subject.class
+com\aandb\AcademicSystem\model\Student.class
+com\aandb\AcademicSystem\Application.class

@@ -18,7 +18,6 @@ public class StudentDAO
 
     public StudentDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) throws SQLException
     {
-        System.out.println(jdbcURL);
         dbConnection = new DBConnection(jdbcURL, jdbcUsername, jdbcPassword);
     }
     
@@ -75,7 +74,7 @@ public class StudentDAO
     {
         Student student = new Student();
         
-        String sql = "SELECT * FROM alumno WHERE cui = ?";
+        String sql = "SELECT * FROM alumno WHERE cui=?";
         dbConnection.connect();
         connection = dbConnection.getJdbcConnection();
         PreparedStatement statement = connection.prepareStatement(sql);

@@ -26,7 +26,14 @@ public class MainController
     public String students(Model model) throws SQLException
     {
         model.addAttribute("students", Application.studentDAO.listStudents());
-        return "tables";
+        return "students";
+    }
+    
+    @RequestMapping("/subjects")
+    public String subjects(Model model) throws SQLException
+    {
+        model.addAttribute("subjects", Application.subjectDAO.listSubjects());
+        return "subjects";
     }
     
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/registerStudent")
