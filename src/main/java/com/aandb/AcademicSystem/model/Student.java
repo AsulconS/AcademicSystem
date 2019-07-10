@@ -8,7 +8,13 @@ public class Student
     private int age;
     private String sex;
     
-    public Student() {}
+    public Student()
+    {
+    	name = "Nombre";
+    	lastName = "Apellidos";
+    	age = 0;
+    	sex = "D";
+    }
     
     public Student(int cui, String name, String lastName, int age, String sex)
     {

@@ -81,7 +81,7 @@ public class SubjectDAO
         return listSubjects;
     }
     
-    public Subject getStudentByCui(int casi) throws SQLException
+    public Subject getSubjectByCasi(int casi) throws SQLException
     {
         Subject subject = new Subject();
         
@@ -91,6 +91,39 @@ public class SubjectDAO
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, casi);
         
+        ResultSet res = statement.executeQuery();
+        if(res.next())
+        {
+            subject.setCasi(res.getInt("casi"));
+            subject.setName(res.getString("nombre"));
+            subject.setSemester(res.getInt("semestre"));
+            subject.setCharacteristics(res.getString("caracteristicas"));
+            subject.setDuration(res.getInt("duracion"));
+            subject.setTheoricHours(res.getInt("horas_teoricas"));
+            subject.setPracticHours(res.getInt("horas_practicas"));
+            subject.setTheoricPracticHours(res.getInt("horas_teorico_practicas"));
+            subject.setLaboratoryHours(res.getInt("horas_laboratorio"));
+            subject.setCredits(res.getInt("creditos"));
+            subject.setFoundation(res.getString("fundamentacion"));
+            subject.setSummary(res.getString("sumilla"));
+        }
+        res.close();
+        dbConnection.disconnect();
+        
+        return subject;
+    }
+    
+    public Subject getSubjectbyName(String name) throws SQLException
+    {
+        Subject subject = new Subject();
+        
+        String sql = "SELECT * FROM asignatura WHERE nombre='"+name+"';";
+        System.out.println(sql);
+        dbConnection.connect();
+        connection = dbConnection.getJdbcConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        
+        System.out.println(sql);
         ResultSet res = statement.executeQuery();
         if(res.next())
         {

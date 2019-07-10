@@ -16,7 +16,7 @@ USE `academicSystemDB` ;
 
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`alumno` (
   `cui` INT(8) NOT NULL,
-  `nombre` VARCHAR(45) NOT NULL,
+  `nombres` VARCHAR(45) NOT NULL,
   `apellidos` VARCHAR(45) NOT NULL,
   `edad` TINYINT(4) NOT NULL,
   `sexo` VARCHAR(1) NOT NULL,
@@ -74,11 +74,21 @@ CREATE TABLE IF NOT EXISTS `academicSystemDB`.`silabo` (
   `id_asignatura` INT(8) NOT NULL,
   `semestre` VARCHAR(8) NOT NULL,
   `contenido` VARCHAR(2056) NOT NULL,
-  `tipos_evaluacion` VARCHAR(45) NULL,
-  `evaluacion_continua` VARCHAR(45) NULL,
-  `evaluacion_periodica` VARCHAR(45) NULL,
-  `instrumentos` VARCHAR(45) NULL,
-  `requisitos_evaluacion` VARCHAR(45) NULL,
+  `tipos_evaluacion` VARCHAR(512) NULL,
+  `evaluacion_continua` VARCHAR(150) NULL,
+  `evaluacion_periodica` VARCHAR(150) NULL,
+  `instrumentos` VARCHAR(256) NULL,
+  `requisitos_evaluacion` VARCHAR(1024) NULL,
+  `periodo_academico` VARCHAR(45) NULL,
+  `porcentaje_ep1` INT(3) NULL,
+  `porcentaje_ep2` INT(3) NULL,
+  `porcentaje_ep3` INT(3) NULL,
+  `porcentaje_ec1` INT(3) NULL,
+  `porcentaje_ec2` INT(3) NULL,
+  `porcentaje_ec3` INT(3) NULL,
+  `fecha_ep1` VARCHAR(45) NULL,
+  `fecha_ep2` VARCHAR(45) NULL,
+  `fecha_ep3` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `id_asignatura_idx` (`id_asignatura` ASC),
   CONSTRAINT `id_asignatura`
@@ -96,6 +106,8 @@ CREATE TABLE IF NOT EXISTS `academicSystemDB`.`cronograma` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_silabo` INT(8) NOT NULL,
   `semana` VARCHAR(45) NOT NULL,
+  `tema_evaluacion` VARCHAR(45) NULL,
+  `avance` INT(3) NULL,
   PRIMARY KEY (`id`),
   INDEX `id_id_silabox` (`id_silabo` ASC),
   CONSTRAINT `id_silabo`
@@ -145,21 +157,37 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`competencia` (
   `id` INT NOT NULL,
-  `nombre` VARCHAR(45) NULL,
-  `nivel` INT NULL,
-  `id_resultado` INT NOT NULL,
+  `nombre` VARCHAR(500) NULL,
   `id_silabo` INT(8) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_competencia_resultado1_idx` (`id_resultado` ASC),
   INDEX `fk_competencia_silabo1_idx` (`id_silabo` ASC),
-  CONSTRAINT `fk_competencia_resultado1`
-    FOREIGN KEY (`id_resultado`)
-    REFERENCES `academicSystemDB`.`resultado` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_competencia_silabo1`
     FOREIGN KEY (`id_silabo`)
     REFERENCES `academicSystemDB`.`silabo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `academicSystemDB`.`competencia-resultado`
+-- -----------------------------------------------------
+CREATE TABLE `academicsystemdb`.`competencia-resultado` (
+  `id` INT NOT NULL,
+  `competencia_id` INT NULL,
+  `resultado_id` INT NULL,
+  `nivel` INT(2) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_competencia-resultado_competencia1_idx1` (`competencia_id` ASC),
+  INDEX `fk_competencia-resultado_resultado1_idx1` (`resultado_id` ASC),
+  CONSTRAINT `fk_competencia-resultado_competencia1`
+    FOREIGN KEY (`competencia_id`)
+    REFERENCES `academicsystemdb`.`competencia` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_competencia-resultado_resultado1`
+    FOREIGN KEY (`resultado_id`)
+    REFERENCES `academicsystemDB`.`resultado` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -171,7 +199,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`estrategia-ensenianza` (
   `id` INT NOT NULL,
   `tipo` VARCHAR(45) NULL,
-  `descripcion` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -181,11 +208,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`bibliografia` (
   `id` INT NOT NULL,
-  `nombre` VARCHAR(45) NULL,
-  `autor` VARCHAR(45) NULL,
-  `fecha` VARCHAR(45) NULL,
-  `editorial` VARCHAR(45) NULL,
-  `edicion` VARCHAR(45) NULL,
+  `nombre` VARCHAR(256) NULL,
+  `autor` VARCHAR(256) NULL,
+  `fecha` VARCHAR(256) NULL,
+  `editorial` VARCHAR(256) NULL,
+  `edicion` VARCHAR(256) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -197,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `academicSystemDB`.`silabo-estrategia` (
   `id` INT NOT NULL,
   `id_silabo` INT(8) NOT NULL,
   `id_estrategia` INT NOT NULL,
+  `descripcion` VARCHAR(150) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_silabo-estrategia_silabo1_idx` (`id_silabo` ASC),
   INDEX `fk_silabo-estrategia_estrategia-ensenianza1_idx` (`id_estrategia` ASC),
@@ -218,7 +246,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`silabo-bibliografia` (
   `id` INT NOT NULL,
-  `tipo` VARCHAR(45) NULL,
+  `tipo` VARCHAR(128) NULL,
   `id_silabo` INT(8) NOT NULL,
   `id_bibliografia` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -244,8 +272,9 @@ CREATE TABLE IF NOT EXISTS `academicSystemDB`.`horario` (
   `id` INT NOT NULL,
   `dia_semana` VARCHAR(45) NULL,
   `tipo_clase` VARCHAR(45) NULL,
-  `grupo` VARCHAR(1) NULL,
+  `grupo` VARCHAR(30) NULL,
   `id_silabo` INT(8) NOT NULL,
+  `contenido` VARCHAR(150) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_horario_silabo1_idx` (`id_silabo` ASC),
   CONSTRAINT `fk_horario_silabo1`
@@ -323,8 +352,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `academicSystemDB`.`departamento_academico` (
   `id` INT NOT NULL,
-  `nombre` VARCHAR(45) NULL,
-  `departamento_academico` VARCHAR(45) NULL,
+  `nombre` VARCHAR(128) NULL,
+  `descripcion` VARCHAR(2048) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -336,8 +365,9 @@ CREATE TABLE IF NOT EXISTS `academicSystemDB`.`docente` (
   `id` INT NOT NULL,
   `dni` INT(8) NULL,
   `nombre` VARCHAR(45) NULL,
+  `apellido_paterno` VARCHAR(45) NULL,
+  `apellido_materno` VARCHAR(45) NULL,
   `grado_academico` VARCHAR(45) NULL,
-  `docente_col` VARCHAR(45) NULL,
   `id_departamento_academico` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_docente_departamento_academico1_idx` (`id_departamento_academico` ASC),
@@ -380,6 +410,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- Current Verion and Time Configuration
 -- -----------------------------------------------------
 SELECT version();
-SET @@global.time_zone = ‘+00:00’;
-SET @@session.time_zone = ‘+00:00’;
+SET @@global.time_zone = '+00:00';
+SET @@session.time_zone = '+00:00';
 SELECT @@global.time_zone, @@session.time_zone;

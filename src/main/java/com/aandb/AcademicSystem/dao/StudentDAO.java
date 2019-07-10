@@ -51,7 +51,7 @@ public class StudentDAO
         while(resultSet.next())
         {
             int cui = resultSet.getInt("cui");
-            String name = resultSet.getString("nombre");
+            String name = resultSet.getString("nombres");
             String lastName = resultSet.getString("apellidos");
             int age = resultSet.getInt("edad");
             String sex = resultSet.getString("sexo");
@@ -84,7 +84,7 @@ public class StudentDAO
         if(res.next())
         {
             student.setCui(res.getInt("cui"));
-            student.setName(res.getString("nombre"));
+            student.setName(res.getString("nombres"));
             student.setLastName(res.getString("apellidos"));
             student.setAge(res.getInt("edad"));
             student.setSex(res.getString("sexo"));
@@ -97,7 +97,7 @@ public class StudentDAO
     
     public boolean update(Student student) throws SQLException
     {
-        String sql = "UPDATE alumno SET nombre=?, apellidos=?, edad=?, sexo=? WHERE cui=?";
+        String sql = "UPDATE alumno SET nombres=?, apellidos=?, edad=?, sexo=? WHERE cui=?";
         dbConnection.connect();
         connection = dbConnection.getJdbcConnection();
         PreparedStatement statement = connection.prepareStatement(sql);

@@ -15,7 +15,20 @@ public class Subject
     private String foundation;
     private String summary;
     
-    public Subject() {}
+    public Subject()
+    {
+    	this.name = "name";
+        this.semester = 0;
+        this.characteristics = "characteristics";
+        this.duration = 0;
+        this.theoricHours = 0;
+        this.practicHours = 0;
+        this.theoricPracticHours = 0;
+        this.laboratoryHours = 0;
+        this.credits = 0;
+        this.foundation = "foundation";
+        this.summary = "summary";
+    }
     
     public Subject(int casi, String name, int semester, String characteristics, int duration, int theoricHours,
             int practicHours, int theoricPracticHours, int laboratoryHours, int credits, String foundation,
